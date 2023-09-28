@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Benvenuto nel tuo profilo!</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+    <script>
+        function checkPassword(form) {
+            let password1 = form.currentPassword.value;
+            let password2 = form.newPassword.value;
+
+            if (password1 === '') alert ("Inserisci la password.");
+            else if (password2 === '') alert ("Inserisci la passowrd da confermare.");
+            else if (password1 !== password2) {
+                alert ("\nPassword diverse, riprova.")
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <h2 style="text-align: center">Gestione password</h2>
+    <form id="changePasswordForm" onsubmit="return checkPassword(this)" th:action="@{/profile/change-password}" method="post">
+        <div class="form-group">
+            <label for="currentPassword">Nuova password:</label>
+            <input type="password" id="currentPassword" name="currentPassword" required>
+        </div>
+
+        <div class="form-group">
+            <label for="newPassword">Conferma nuova password:</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+        </div>
+        <button class="submit-btn" type="submit" >Salva</button>
+    </form>
+
+    <div style="text-align: center" class="result" th:text="${res}"></div>
+
+    <br/><br/>
+
+    <form sec:authorize="hasRole('admin')" class="admin" action="/profile/admin">
+        <h2 style="text-align: center">Per accedere alle funzionalità di admin, clicca qui.</h2>
+        <button type="submit" class="submit-btn">
+            Accedi
+        </button>
+    </form>
+
+    <form sec:authorize="hasRole('seller')" class="seller" action="/profile/seller">
+        <h2 style="text-align: center">Per accedere alle funzionalità di negoziante, clicca qui.</h2>
+        <button type="submit" class="submit-btn">
+            Accedi
+        </button>
+    </form>
+
+    <form sec:authorize="hasRole('user')" class="user" action="/profile/user-transactions">
+        <h2 style="text-align: center">Per accedere alla lista movimenti, clicca qui.</h2>
+        <button type="submit" class="submit-btn">
+            Accedi
+        </button>
+    </form>
+
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista dei movimenti</title>
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../../static/assets/favicon.ico"/>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <h2 style="text-align: center">Lista dei movimenti di <div th:text="${fullname}"></div></h2>
+    <div style="text-align: center">
+        <table id="transaction-table">
+            <tr>
+                <th>Descrizione</th>
+                <th>Negozio</th>
+                <th>Data</th>
+                <th>Operazione</th>
+                <th>Numero di carta</th>
+            </tr>
+                <th:block th:each="transaction : ${creditCardTransactionUserView}">
+                    <tr>
+                        <td th:text="${transaction.description}">...</td>
+                        <td th:text="${transaction.storename}">...</td>
+                        <td th:text="${transaction.date}">...</td>
+                        <td th:text="${transaction.operation} + ' €'">...</td>
+                        <td th:text="${transaction.number}">...</td>
+                    </tr>
+                </th:block>
+        </table>
+    </div>
+
+    <div style="padding-block: 80px"></div>
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>

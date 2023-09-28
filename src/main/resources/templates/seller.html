@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Negoziante</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+    <script>
+        function sendSellerData(number, balance, checkbox, description) {
+            let data = {
+                number: number,
+                balance: balance,
+                checkbox: checkbox,
+                description: description
+            }
+
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                url: "profile/seller/generate-report",
+                data: JSON.stringify(data),
+                cache: false,
+                contentType: "application/json",
+                success: function(data) {
+                    console.log(data);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        }
+
+        function sendData(ccnumber, username) {
+            let data = {
+                ccnumber: ccnumber,
+                username: username,
+            }
+
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                url: "profile/seller/assign-creditcard",
+                data: JSON.stringify(data),
+                cache: false,
+                contentType: "application/json",
+                success: function(data) {
+                    console.log(data);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        }
+
+        function checkNumber(form) {
+            let number = form.number.value;
+            let balance = form.balance.value;
+            if (number < 1 || balance < 1) {
+                alert ("Inserisci un valore maggiore di 0");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <h2 style="text-align: center">Benvenuto negoziante, da qui puoi eseguire ricariche o addebiti</h2>
+    <div class="container"> <!--- ACCREDITO/ADDEBITO CARTE + GENERAZIONE DI UNA TRANSAZIONE --->
+
+        <form onsubmit="return checkNumber(form)" id="form" th:action="@{/profile/seller/generate-report}" method="post">
+            <label for="number">Inserisci il numero della carta:</label>
+            <input type="number" id="number" name="number" placeholder="0" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="balance">Inserisci valore di accredito/addebito:</label>
+            <input type="number" id="balance" name="balance" placeholder="0" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label class="inline" for="checkbox">Segna la checkbox se è un addebito:</label>
+            <input type="checkbox" id="checkbox" name="checkbox" value="on">
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="description">Descrizione della transazione:</label>
+            <input type="text" id="description" name="description" placeholder="Aggiungi una descrizione..." required>
+
+            <div style="padding-block: 10px"></div>
+            <input type="submit" value="Salva operazione" onclick="sendSellerData($('#number').val(), $('#balance').val(), $('#checkbox').val(), $('#description').val())">
+        </form>
+
+        <div class="param" th:if="${param.success}"> Transazione eseguita con successo </div>
+        <div class="param" th:if="${param.error}"> Errore: carta disabilita o non assegnata </div>
+
+    </div>
+
+    <div style="padding-block: 15px"></div>
+
+    <h2 style="text-align: center">Da qui puoi invece assegnare carte ai clienti</h2>
+    <div class="container"> <!--- ASSEGNAZIONE CARTE AI CLIENTI --->
+
+        <form id="assign-form" th:action="@{/profile/seller/assign-creditcard}" method="post">
+            <label for="ccnumber">Inserisci il numero della carta:</label>
+            <input type="number" id="ccnumber" name="ccnumber" placeholder="0" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="username">Inserisci l'indirizzo e-mail del cliente:</label>
+            <input type="text" id="username" name="username" placeholder="demo@example.com" required>
+
+            <div style="padding-block: 10px"></div>
+            <input type="submit" value="Salva operazione" onclick="sendData($('#ccnumber').val(), $('#username').val())">
+        </form>
+
+        <div class="param" th:if="${param.ccsuccess}"> Aggiunzione eseguita con successo </div>
+        <div class="param" th:if="${param.ccerror}"> Errore: indirizzo e-mail errato </div>
+
+    </div>
+
+    <h2 style="text-align: center">Visualizza la lista delle transazioni eseguite nella <a href="http://localhost:8080/profile/seller/seller-transactions">seguente pagina</a>.</h2>
+
+    <div style="padding-block: 80px"></div>
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>

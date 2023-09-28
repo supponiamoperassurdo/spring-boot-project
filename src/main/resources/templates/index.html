@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <title>Benvenuto</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <div class="welcome-section">
+        <h1>Benvenuto!</h1>
+        <p>In questa pagina puoi verificare, in alto a sinistra, il credito residuo della tua carta, <br/>
+        oppure accedere e svolgere altre operazioni nel caso in cui tu fossi un negoziante o un amministratore.</p>
+    </div>
+
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>

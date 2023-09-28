@@ -1,0 +1,8 @@
+<div th:fragment="navbar" xmlns:sec="http://www.w3.org/1999/xhtml" class="navbar">
+    <a href="/">Home</a>
+    <a href="/login" th:href="@{/login}" sec:authorize="isAnonymous()">Login</a>
+    <a href="/logout" th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
+    <a href="/profile" th:href="@{/profile}" sec:authorize="isAuthenticated()">Profilo</a>
+    <a href="/balance">Bilancio carta</a>
+    <a href="/about-us">About "us"</a>
+</div>

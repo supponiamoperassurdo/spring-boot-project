@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Login</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form th:action="@{/login}" method="post">
+            <label for="username">E-mail</label>
+            <input type="text" id="username" name="username" placeholder="Inserisci la tua e-mail" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Inserisci la tua password" required>
+
+            <div style="padding-block: 10px"></div>
+
+            <button type="submit" class="submit-btn">Accedi</button>
+
+            <div style="padding-block: 5px"></div>
+
+            Non hai un account? Clicca <a href="/register" th:href="@{/register}" sec:authorize="isAnonymous()">qui</a>
+        </form>
+    </div>
+
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrazione</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/css/register.css">
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <div class="login-container">
+        <h2>Registrati</h2>
+        <form th:action="@{/register/execute}" method="post">
+
+            <label for="firstname">Nome</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Inserisci il tuo nome" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="lastname">Cognome</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Inserisci il tuo nome" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="username">E-mail</label>
+            <input type="text" id="username" name="username" placeholder="Inserisci la tua e-mail" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Inserisci la tua password" required>
+
+            <div style="padding-block: 10px"></div>
+
+            <button type="submit" class="submit-btn">Registrati</button>
+        </form>
+
+        <div style="padding-block: 5px"></div>
+
+        <div style="padding-top: 5px" th:if="${param.error}">
+            <div style="text-align: center" class="alert alert-info">Indirizzo e-mail giù utilizzato.</div>
+        </div>
+    </div>
+
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>

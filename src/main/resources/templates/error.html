@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+    <title>Error</title>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <h2 style="padding-left: 20px" th:text="${code}"></h2>
+
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Verifica del bilancio</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/css/balance.css">
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <div class="container">
+        <h2>Verifica del bilancio</h2>
+        <form id="balanceForm" th:action="@{/balance/check}" method="get">
+            <label for="number">Inserisci il numero della carta</label>
+            <input type="number" id="number" name="number" placeholder="0" required>
+            <div style="padding-block: 10px"></div>
+            <input type="submit" value="Verifica">
+        </form>
+        <div class="result" id="balance" th:text="${balance}"></div>
+    </div>
+
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>

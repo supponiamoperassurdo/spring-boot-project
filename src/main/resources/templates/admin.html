@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico"/>
+    <script>
+        function checkNumber(form) {
+            let balance = form.balance.value;
+            if (balance < 1) {
+                alert ("Inserisci un valore maggiore di 0");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <h2 style="text-align: center">Benvenuto admin, da qui puoi aggiungere nuove carte</h2>
+    <form onsubmit="return checkNumber(this)" id="add-creditcard" th:action="@{/profile/admin/add-creditcard}" method="post">
+        <div class="form-group">
+            <label for="balance">Bilancio iniziale:</label>
+            <input type="number" id="balance" name="balance" required>
+        </div>
+        <input class="submit-btn" type="submit" value="Salva carta">
+    </form>
+
+    <div style="text-align: center" class="number" id="number" th:text="${param.number}"></div>
+
+    <div style="padding-block: 15px"></div>
+
+    <div class="container">
+
+        <h2 style="text-align: center">Aggiungere nuovi negozianti</h2>
+        <form th:action="@{/profile/admin/add-seller}" method="post"> <!--- INSERIMENTO NEGOZIANTI --->
+            <label for="firstname">Nome del negoziante:</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Mario" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="lastname">Cognome del negoziante:</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Rossi" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="username">Indirizzo e-mail:</label>
+            <input type="text" id="username" name="username" placeholder="E-mail" required>
+
+            <div style="padding-block: 5px"></div>
+
+            <label for="password">Password del negoziante:</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <div style="padding-block: 10px"></div>
+
+            <label for="storename">Nome del negozio:</label>
+            <input type="text" id="storename" name="storename" placeholder="Gamestop..." required>
+
+            <div style="padding-block: 5px"></div>
+
+            <button type="submit" class="submit-btn">Registra negoziante</button>
+        </form>
+
+        <div style="padding-block: 5px"></div>
+
+        <div style="padding-top: 5px" th:if="${param.adderror}">
+            Indirizzo e-mail già utilizzato.
+        </div>
+
+        <div style="padding-block: 5px"></div>
+
+        <h2 style="text-align: center">Oppure rimuoverli</h2> <!--- RIMOZIONE NEGOZIANTI --->
+        <form th:action="@{/profile/admin/remove-seller}" method="post">
+            <label for="delusername">Indirizzo e-mail:</label>
+            <input type="text" id="delusername" name="delusername" placeholder="E-mail" required>
+
+            <div style="padding-block: 10px"></div>
+
+            <button type="submit" class="submit-btn">Elimina negoziante</button>
+        </form>
+
+        <div style="padding-top: 15px" th:if="${param.removeerror}">
+            Indirizzo e-mail non presente o di un cliente.
+        </div>
+
+    </div>
+
+    <div style="padding-block: 15px"></div>
+
+    <h2 style="text-align: center">Per abilitare o disattivare le carte, prosegui alla <a href="http://localhost:8080/profile/admin/manage-creditcards">seguente pagina</a>.</h2>
+
+    <div style="padding-block: 80px"></div>
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>

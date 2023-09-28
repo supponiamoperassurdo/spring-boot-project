@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Abilitazione carte</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="../../static/assets/favicon.ico"/>
+    <script>
+        function sendData(number) {
+            let data = { number: number }
+
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                url: "/profile/admin/manage-creditcards/manage-status",
+                data: JSON.stringify(data),
+                cache: false,
+                contentType: "application/json",
+                success: function(data) {
+                    console.log(data);
+                    $('creditcard-table').html(data);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div lang="en" th:replace="~{fragments/navbar:: navbar}"></div>
+
+    <h2 style="text-align: center">Benvenuto admin, da qui puoi abilitare o disabilitare le carte nel database</h2>
+    <form th:action="@{/profile/admin/manage-creditcards/manage-status}" method="post">
+        <div class="form-group">
+            <label for="number">Inserisci il numero di carta di cui vuoi cambiare lo stato:</label>
+            <input type="number" id="number" name="number" required>
+        </div>
+        <input class="submit-btn" type="submit" value="Cambia stato" onclick="sendData($('#number').val())">
+    </form>
+
+    <div style="padding-block: 10px"></div>
+
+    <div style="text-align: center">
+        <table id="creditcard-table">
+            <tr>
+                <th>Numero di carta</th>
+                <th>Bilancio</th>
+                <th>Status</th>
+            </tr>
+            <th:block th:each="creditCard : ${creditCardList}">
+                <tr>
+                    <td th:text="${creditCard.number}">...</td>
+                    <td th:text="${creditCard.balance}">...</td>
+                    <td th:if="${creditCard.status}==1" th:text="ON">...</td>
+                    <td th:unless="${creditCard.status}==1" th:text="OFF">...</td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+
+    <div lang="en" th:replace="~{fragments/footer:: footer}"></div>
+</body>
+</html>
